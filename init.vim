@@ -1,0 +1,1 @@
+/home/daoh/.config/nvim/init.vim
