@@ -7,6 +7,7 @@ set smarttab
 set shiftwidth=4
 set number
 let mapleader=(' ') "
+:tnoremap <Esc> <C-\><C-n>
 :tnoremap <A-h> <C-\><C-N><C-w>h
 :tnoremap <A-j> <C-\><C-N><C-w>j
 :tnoremap <A-k> <C-\><C-N><C-w>k
@@ -23,4 +24,14 @@ let mapleader=(' ') "
 :nnoremap <leader>tc :tabclose<CR> 
 :nnoremap <leader>tn :tabnext<CR> 
 :nnoremap <leader>tp :tabprevious<CR>
+:nnoremap <A-t> :Ntree<CR>
 
+"PLUG"
+call plug#begin()
+Plug 'nvim-tree/nvim-tree.lua'
+
+call plug#end()
+
+"LUA"
+lua << EOF
+EOF
