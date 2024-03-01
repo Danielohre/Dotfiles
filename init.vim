@@ -16,6 +16,10 @@ let mapleader=(' ') "
 :inoremap <A-j> <C-\><C-N><C-w>j
 :inoremap <A-k> <C-\><C-N><C-w>k
 :inoremap <A-l> <C-\><C-N><C-w>l
+:inoremap <C-q> <home>
+:inoremap <C-e> <End>
+:nnoremap <C-q> <home>
+:nnoremap <C-e> <end>
 :nnoremap <A-h> <C-w>h
 :nnoremap <A-j> <C-w>j
 :nnoremap <A-k> <C-w>k
@@ -29,7 +33,7 @@ let mapleader=(' ') "
 "PLUG"
 call plug#begin()
 Plug 'nvim-tree/nvim-tree.lua'
-
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
 "LUA"
