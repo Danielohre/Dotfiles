@@ -12,12 +12,21 @@ let mapleader=(' ') "
 :tnoremap <A-j> <C-\><C-N><C-w>j
 :tnoremap <A-k> <C-\><C-N><C-w>k
 :tnoremap <A-l> <C-\><C-N><C-w>l
+
 :inoremap <A-h> <C-\><C-N><C-w>h
 :inoremap <A-j> <C-\><C-N><C-w>j
 :inoremap <A-k> <C-\><C-N><C-w>k
 :inoremap <A-l> <C-\><C-N><C-w>l
 :inoremap <C-q> <home>
 :inoremap <C-e> <End>
+inoremap " ""<left>
+inoremap ' ''<left>
+inoremap ( ()<left>
+inoremap [ []<left>
+inoremap { {}<left>
+inoremap {<CR> {<CR>}<ESC>O
+inoremap {;<CR> {<CR>};<ESC>O
+
 :nnoremap <C-q> <home>
 :nnoremap <C-e> <end>
 :nnoremap <A-h> <C-w>h
