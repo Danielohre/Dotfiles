@@ -1,3 +1,5 @@
+
+source ~/.config/nvim/plugins.vim
 syntax on
 set filetype
 set tabstop=4
@@ -10,4 +12,3 @@ let mapleader=(' ') "
 :colorscheme nightfly
 
 source ~/.config/nvim/keybinds.vim
-source ~/.config/nvim/plugins.vim
