@@ -8,7 +8,8 @@ set ruler
 set smarttab
 set shiftwidth=4
 set number
-let mapleader=(' ') "
+set autochdir
+let mapleader=(' ') 
 :colorscheme nightfly
 
 source ~/.config/nvim/keybinds.vim
