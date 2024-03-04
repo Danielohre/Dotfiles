@@ -118,5 +118,8 @@ require'nvim-treesitter.configs'.setup {
   -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
   require('lspconfig')['clangd'].setup {
     capabilities = capabilities
-  }
+	}
+  require('lspconfig')['pyright'].setup {
+	  capabilities = capabilities
+	}
 EOF
