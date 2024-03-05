@@ -2,6 +2,9 @@
 local cmp = require'cmp'
 
 cmp.setup({
+  completion = {
+    completeopt = 'menu,menuone,noinsert'
+  },
 snippet = {
   -- REQUIRED - you must specify a snippet engine
   expand = function(args)
@@ -31,8 +34,8 @@ sources = cmp.config.sources({
 }, {
   { name = 'buffer' },
 })
-})
 
+})
 -- Set configuration for specific filetype.
 cmp.setup.filetype('gitcommit', {
 sources = cmp.config.sources({
