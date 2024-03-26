@@ -15,6 +15,7 @@ Plug 'hrsh7th/vim-vsnip'
 Plug 'williamboman/mason.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', {'branch': '0.1.x'}
+Plug 'peterhoeg/vim-qml'
 
 call plug#end()
 
