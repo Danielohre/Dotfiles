@@ -1,0 +1,10 @@
+vim.opt.cursorline = true
+vim.opt.filetype = "on"
+vim.opt.tabstop = 4
+vim.opt.showmatch = true
+vim.opt.ruler = true
+vim.opt.smarttab = true
+vim.opt.shiftwidth= 4
+vim.opt.number = true
+vim.opt.syntax = "on"
+vim.opt.autoread = true

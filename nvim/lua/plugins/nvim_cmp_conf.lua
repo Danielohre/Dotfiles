@@ -1,5 +1,5 @@
 
-local cmp = require'cmp'
+local cmp = require('cmp')
 
 cmp.setup({
   completion = {
@@ -35,13 +35,13 @@ mapping = cmp.mapping.preset.insert({
 		end
 }),
 sources = cmp.config.sources({
-  { name = 'nvim_lsp' },
-  { name = 'vsnip' }, -- For vsnip users.
+  { name = 'nvim_lsp', dup = 0 },
+  { name = 'vsnip', dup = 0 }, -- For vsnip users.
   -- { name = 'luasnip' }, -- For luasnip users.
   -- { name = 'ultisnips' }, -- For ultisnips users.
   -- { name = 'snippy' }, -- For snippy users.
 }, {
-  { name = 'buffer' },
+  { name = 'buffer', dup = 0 },
 })
 
 })
@@ -58,7 +58,7 @@ sources = cmp.config.sources({
 cmp.setup.cmdline({ '/', '?' }, {
 mapping = cmp.mapping.preset.cmdline(),
 sources = {
-  { name = 'buffer' }
+  { name = 'buffer', dup = 0 }
 }
 })
 
@@ -68,9 +68,10 @@ mapping = cmp.mapping.preset.cmdline(),
 sources = cmp.config.sources({
   { name = 'path' }
 }, {
-  { name = 'cmdline' }
+  { name = 'cmdline', duo = 0 }
 })
 })
+
 
 -- Set up lspconfig.
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
@@ -79,9 +80,6 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 require('lspconfig')['clangd'].setup {
 	capabilities = capabilities,
 
-}
-require('lspconfig')['clangd'].setup {
-	capabilities = capabilities,
 }
 require('lspconfig')['pylsp'].setup {
   capabilities = capabilities
