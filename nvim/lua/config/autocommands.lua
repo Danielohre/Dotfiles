@@ -29,3 +29,20 @@ vim.api.nvim_create_autocmd({"BufWritePost"}, {
 	group = 'BlackFormat'
 })
 
+vim.api.nvim_create_autocmd({"WinEnter", "BufEnter"}, {
+	pattern = {"*"},
+	command = "hi StatusLine guibg=#1b272e guifg=#FFFFFF",
+
+})
+
+vim.api.nvim_create_augroup('CursorLine', {clear = true})
+vim.api.nvim_create_autocmd({"BufEnter", "VimEnter", "WinEnter"}, {
+	pattern = {"*"},
+	command = "setlocal cursorline",
+	group = 'CursorLine'
+})
+vim.api.nvim_create_autocmd({"WinLeave"}, {
+	pattern = {"*"},
+	command = "setlocal nocursorline",
+	group = 'CursorLine'
+})

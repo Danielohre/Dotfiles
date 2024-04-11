@@ -24,4 +24,4 @@ require('plugins.nvim_cmp_conf')
 require('plugins.treesitter_conf')
 require('plugins.telescope_conf')
 require('plugins.mason_conf')
-
+require('plugins.nvim-tree-config')
