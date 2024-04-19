@@ -46,3 +46,33 @@ vim.api.nvim_create_autocmd({"WinLeave"}, {
 	command = "setlocal nocursorline",
 	group = 'CursorLine'
 })
+
+vim.api.nvim_create_autocmd({'VimEnter'}, {
+	pattern = "*",
+	callback = function ()
+		require('plugins.bpp').ToggleProjectsView()
+	end
+
+
+})
+vim.api.nvim_create_augroup('DirChangedGroup', {
+	clear = true
+})
+vim.api.nvim_create_autocmd({'User'}, {
+	pattern = 'ProjectsDirChanged',
+	group = 'DirChangedGroup',
+	callback = function(opts)
+		require('plugins.toggle-terminal').ChangeDir(opts.data)
+		require('nvim-tree.api').tree.change_root(opts.data)
+		require('nvim-tree.api').tree.open()
+	end,
+})
+vim.api.nvim_create_autocmd({'User'}, {
+	pattern = 'NvimTreeChangedRoot',
+	group = 'DirChangedGroup',
+	callback = function(opts)
+		vim.cmd('cd ' .. opts.data)
+		require('plugins.toggle-terminal').ChangeDir(opts.data)
+	end,
+})
+
