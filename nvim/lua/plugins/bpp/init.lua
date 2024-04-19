@@ -1,17 +1,37 @@
 local M = {}
+
+
+local options = {}
+local default_options = {
+	style = {title = 'fg', list = 'fg', normal = 'bg', end_of_buffer = 'fg'},
+	file_path = vim.fn.stdpath("config") .. '/lua/plugins/bpp/',
+	instructions_data = {},
+	recents_data = {}
+}
+
+
 local projectfile = ""
 local api = vim.api
-local projectsBuffer = nil
 local namespace_id
+
+local projectsBuffer = nil
 local mainWindow = nil
+
 local recentsWindow = nil
 local recentsBuffer = nil
+
 local instructionsWindow = nil
 local instructionsBuffer = nil
+
 local mainWindow_opts = {}
 local recentsWindow_opts = {}
 local instructionsWindow_opts = {}
+
 local buffers_loaded = {projects = false, instructions = false, recents = false}
+
+
+
+
 local function file_exists(name)
 	local f= io.open(name,'r')
 	if f~=nil then
@@ -27,7 +47,7 @@ local function loadProjectsBuffer()
 	if buffers_loaded.projects then api.nvim_buf_set_option(projectsBuffer, 'modifiable', true) api.nvim_buf_set_lines(projectsBuffer, 0, api.nvim_buf_line_count(projectsBuffer),false, {""}) end
 	local projectPaths = M.fetchProjects()
 	local cols = api.nvim_win_get_width(mainWindow)
-	local rows = 70
+	local rows = 50
 	for i = 0, rows, 1 do api.nvim_buf_set_lines(projectsBuffer, i, i, true, {""}) end
 	local header_lines = {
 		string.rep(' ', cols/2 - 31/2) .. ' ____            _           _',
@@ -55,34 +75,33 @@ end
 
 local function loadInstructionsBuffer()
 	local cols = api.nvim_win_get_width(instructionsWindow)
-	for i = 0, 70, 1 do api.nvim_buf_set_lines(instructionsBuffer, i, i, true, {""}) end
+	for i = 0, 50, 1 do api.nvim_buf_set_lines(instructionsBuffer, i, i, true, {""}) end
 	local title = string.rep(' ', cols/2 - 12/2) .. "INSTRUCTIONS"
 	api.nvim_buf_set_lines(instructionsBuffer, 0, 0, true, {title})
 
-	local indent = 35
+	local indent = 15
 	local instructions = {
 		string.rep(' ', indent) .. ' <CR> : CD To Project Under Cursor',
 		string.rep(' ', indent) .. '  A   : Add Existing Project To List',
 		string.rep(' ', indent) .. '<S-D> : Remove Project Under Cursor From List',
 		string.rep(' ', indent) .. '  Q   : Closes Window',
-		string.rep(' ', indent) .. '  C   : Folder For Project And Add To List'
+		string.rep(' ', indent) .. '  C   : Create Folder For Project And Add To List'
 	}
 	for _,text in ipairs(instructions) do
-		api.nvim_buf_set_lines(instructionsBuffer, _+10,_+10, true, {text})
+		api.nvim_buf_set_lines(instructionsBuffer, _ + 10,_ + 10, true, {text})
 	end
-	local mappings = {
-		string.rep(" ", indent) .. '     <C-m> : Toggle Terminal',
-		'',
-		string.rep(" ", indent) .. '<leader>ff : Find File in CWD',
-		'',
-		string.rep(" ", indent) .. '<leader>fg : LiveGrep In CWD',
-	}
-	api.nvim_buf_set_lines(instructionsBuffer, 60,60, true, mappings)
+	local user_text = {}
+	for _, text in ipairs(options.instructions_data) do
+		table.insert(user_text, string.rep(" ", indent) .. text)
+		table.insert(user_text, '')
+	end
+	api.nvim_buf_set_lines(instructionsBuffer, 50,50, true, user_text)
 	for i = 0, 80, 1 do api.nvim_buf_add_highlight(instructionsBuffer, namespace_id , 'ProjectsTitle', i, 0, -1) end
 
 end
 
 local function loadRecentsBuffer()
+	api.nvim_buf_set_lines(recentsBuffer, 0,0, false, options.recents_data)
 end
 
 local function loadBuffers()
@@ -204,10 +223,12 @@ function M.fetchProjects()
 end
 
 function M.highlights()
-	vim.cmd('highlight ProjectsTitle guifg=#0dbdba')
-	vim.cmd('highlight ProjectsList guifg=#14b333')
-	vim.cmd('highlight ProjectNormal guifg=#ffffff guibg=#061430 ')
-	vim.cmd('highlight ProjectEndOfBuffer guifg=bg')
+	local title_hl = 'highlight ProjectsTitle guifg=' .. options.style.title
+	vim.cmd(title_hl)
+
+	vim.cmd('highlight ProjectsList guifg='..options.style.list)
+	vim.cmd('highlight ProjectNormal guifg=#ffffff guibg='.. options.style.normal)
+	vim.cmd('highlight ProjectEndOfBuffer guifg='..options.style.end_of_buffer)
 	namespace_id = api.nvim_create_namespace('ProjectsHighlightNS')
 end
 
@@ -243,8 +264,29 @@ function M.LoadUserCommands()
 	api.nvim_create_user_command('ToggleProjectsView', M.ToggleProjectsView, {nargs = 0, bang = true})
 
 end
+local function MergeOptions(user_opts)
+	if(user_opts == nil) then return default_options end
+	local opts = {}
+	for key, val in pairs(default_options) do
+		if user_opts[key] ~= nil then
+			if type(user_opts[key]) == "table" then
+				opts[key] = val
+				for t_key, t_val in pairs(user_opts[key]) do
+					opts[key][t_key] = t_val
+				end
+			else
+				opts[key] = user_opts[key]
+			end
+		else
+			opts[key] = val
+		end
+	end
+	return opts
+end
+---@param opts table|nil
 function M.setup(opts)
-	projectfile = createProjectsFile(opts.file_path)
+	options = MergeOptions(opts)
+	projectfile = createProjectsFile(options.file_path)
 	M.highlights()
 
 	projectsBuffer = api.nvim_create_buf(false, true)
@@ -278,7 +320,7 @@ function M.setup(opts)
 		width = winWidth,
 		height = winHeight,
 		row = 0,
-		col = winWidth*2
+		col = (winWidth)*2
 	}
 
 	M.ToggleProjectsView()
