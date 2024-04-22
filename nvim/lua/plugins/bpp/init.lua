@@ -1,6 +1,5 @@
 local M = {}
 
-
 local options = {}
 local default_options = {
 	style = {title = 'fg', list = 'fg', normal = 'bg', end_of_buffer = 'fg'},
@@ -47,6 +46,7 @@ local function loadProjectsBuffer()
 	if buffers_loaded.projects then api.nvim_buf_set_option(projectsBuffer, 'modifiable', true) api.nvim_buf_set_lines(projectsBuffer, 0, api.nvim_buf_line_count(projectsBuffer),false, {""}) end
 	local projectPaths = M.fetchProjects()
 	local cols = api.nvim_win_get_width(mainWindow)
+	print(cols)
 	local rows = 50
 	for i = 0, rows, 1 do api.nvim_buf_set_lines(projectsBuffer, i, i, true, {""}) end
 	local header_lines = {
@@ -74,6 +74,7 @@ local function loadProjectsBuffer()
 end
 
 local function loadInstructionsBuffer()
+	if buffers_loaded.instructions then api.nvim_buf_set_lines(instructionsBuffer, 0, api.nvim_buf_line_count(instructionsBuffer), true, {}) end
 	local cols = api.nvim_win_get_width(instructionsWindow)
 	for i = 0, 50, 1 do api.nvim_buf_set_lines(instructionsBuffer, i, i, true, {""}) end
 	local title = string.rep(' ', cols/2 - 12/2) .. "INSTRUCTIONS"
@@ -97,11 +98,14 @@ local function loadInstructionsBuffer()
 	end
 	api.nvim_buf_set_lines(instructionsBuffer, 50,50, true, user_text)
 	for i = 0, 80, 1 do api.nvim_buf_add_highlight(instructionsBuffer, namespace_id , 'ProjectsTitle', i, 0, -1) end
+	buffers_loaded.instructions = true
 
 end
 
 local function loadRecentsBuffer()
 	api.nvim_buf_set_lines(recentsBuffer, 0,0, false, options.recents_data)
+
+	buffers_loaded.recents = true
 end
 
 local function loadBuffers()
@@ -140,6 +144,7 @@ function M.ToggleProjectsView()
 		api.nvim_win_set_option(mainWindow, 'cursorline', true)
 		api.nvim_win_set_option(mainWindow, 'winhighlight', common_highlight_opts)
 		api.nvim_win_set_option(mainWindow, 'number', false)
+		api.nvim_set_current_win(mainWindow)
 
 		if buffers_loaded.projects then api.nvim_win_set_cursor(mainWindow, {7, 0}) end
 
@@ -332,6 +337,30 @@ function M.setup(opts)
 		buffer = projectsBuffer,
 		callback = function ()
 			M.ToggleProjectsView()
+		end,
+		group = 'Projects'
+	})
+	api.nvim_create_autocmd({'WinResized'}, {
+		pattern = '*',
+		callback = function ()
+			if not api.nvim_win_is_valid(mainWindow) then return end
+			local newWinWidth = math.floor(api.nvim_list_uis()[1].width/3)
+			local newWinHeight = math.floor(api.nvim_list_uis()[1].height)
+			recentsWindow_opts.width = newWinWidth
+			recentsWindow_opts.height = newWinHeight
+
+			mainWindow_opts.width = newWinWidth
+			mainWindow_opts.height = newWinHeight
+			mainWindow_opts.col = newWinWidth
+
+			instructionsWindow_opts.width = newWinWidth
+			instructionsWindow_opts.height = newWinHeight
+			instructionsWindow_opts.col = newWinWidth*2
+
+			loadBuffers()
+			M.ToggleProjectsView()
+			M.ToggleProjectsView()
+
 		end,
 		group = 'Projects'
 	})
