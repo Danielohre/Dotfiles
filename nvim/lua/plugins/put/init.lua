@@ -1,3 +1,4 @@
+--PopUpTerminal
 local M = {}
 
 local terminalWindow
@@ -5,6 +6,13 @@ local terminalBuffer
 local window_opts
 local width_scale
 local height_scale
+local default_options = {
+	width_scale = 0.8,
+	height_scale = 0.8,
+	terminal_fg = "#ffffff",
+	terminal_bg = "bg"
+}
+local options = {}
 
 function M.toggle()
 	if vim.fn.getbufinfo(terminalBuffer)[1].hidden == 1 then
@@ -24,7 +32,6 @@ end
 function M.ChangeDir(path)
 	M.toggle()
 	vim.api.nvim_win_call(terminalWindow, function ()
-		print('cd' .. path)
 		vim.api.nvim_chan_send(terminalBuffer, 'cd ' .. path .. '\n')
 		vim.api.nvim_chan_send(terminalBuffer, 'clear\n')
 		M.toggle()
@@ -34,11 +41,21 @@ end
 function M.Highlights()
 	vim.cmd('hi TerminalNormal guifg=#ffffff guibg=#191a1c')
 end
+local function MergeOptions(user_opts)
+	for key, val in pairs(default_options) do 
+		if user_opts[key] ~= nil then
+			options[key] = user_opts[key]
+		else
+			options[key] = val
+		end
+	end
+end
 function M.setup(opts)
 	opts = opts or {
 		width_scale = 0.8,
 		height_scale = 0.8,
 	}
+	MergeOptions(opts)
 	M.Highlights()
 	local TerminalMode = function()
 		vim.cmd('terminal')
@@ -60,6 +77,8 @@ function M.setup(opts)
 	vim.api.nvim_win_call(terminalWindow, TerminalMode)
 	vim.api.nvim_win_hide(terminalWindow)
 	vim.api.nvim_create_user_command('ToggleTerminal',  M.toggle, {bang = true})
+
+	vim.api.nvim_buf_set_keymap(terminalBuffer, 'n', '<ESC>', '<cmd>q<CR>', {})
 end
 
 return M

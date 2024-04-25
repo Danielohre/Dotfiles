@@ -8,7 +8,6 @@ local default_options = {
 	recents_data = {}
 }
 
-
 local projectfile = ""
 local api = vim.api
 local namespace_id
@@ -29,8 +28,6 @@ local instructionsWindow_opts = {}
 local buffers_loaded = {projects = false, instructions = false, recents = false}
 
 
-
-
 local function file_exists(name)
 	local f= io.open(name,'r')
 	if f~=nil then
@@ -46,16 +43,15 @@ local function loadProjectsBuffer()
 	if buffers_loaded.projects then api.nvim_buf_set_option(projectsBuffer, 'modifiable', true) api.nvim_buf_set_lines(projectsBuffer, 0, api.nvim_buf_line_count(projectsBuffer),false, {""}) end
 	local projectPaths = M.fetchProjects()
 	local cols = api.nvim_win_get_width(mainWindow)
-	print(cols)
 	local rows = 50
 	for i = 0, rows, 1 do api.nvim_buf_set_lines(projectsBuffer, i, i, true, {""}) end
 	local header_lines = {
-		string.rep(' ', cols/2 - 31/2) .. ' ____            _           _',
-		string.rep(' ', cols/2 - 31/2) ..'|    \\_____ ___ (_) ___  ___| |_ ___',
-		string.rep(' ', cols/2 - 31/2) ..'| |_) |  __/ _ \\| |/ _ \\/ __| __/ __|',
-		string.rep(' ', cols/2 - 31/2) ..'|  __/| | | (_) | |  __/ (__| |_\\__ \\',
-		string.rep(' ', cols/2 - 31/2) ..'|_|   |_|  \\___// |\\___|\\___|\\__|___/ ',
-		string.rep(' ', cols/2 - 31/2) ..'              |__/ '
+		string.rep(' ', cols/2 - 36/2) .. ' ____            _           _',
+		string.rep(' ', cols/2 - 36/2) ..'|    \\_____ ___ (_) ___  ___| |_ ___',
+		string.rep(' ', cols/2 - 36/2) ..'| |_) |  __/ _ \\| |/ _ \\/ __| __/ __|',
+		string.rep(' ', cols/2 - 36/2) ..'|  __/| | | (_) | |  __/ (__| |_\\__ \\',
+		string.rep(' ', cols/2 - 36/2) ..'|_|   |_|  \\___// |\\___|\\___|\\__|___/ ',
+		string.rep(' ', cols/2 - 36/2) ..'              |__/ '
 
 	}
 	local line = 0;
@@ -99,12 +95,10 @@ local function loadInstructionsBuffer()
 	api.nvim_buf_set_lines(instructionsBuffer, 50,50, true, user_text)
 	for i = 0, 80, 1 do api.nvim_buf_add_highlight(instructionsBuffer, namespace_id , 'ProjectsTitle', i, 0, -1) end
 	buffers_loaded.instructions = true
-
 end
 
 local function loadRecentsBuffer()
 	api.nvim_buf_set_lines(recentsBuffer, 0,0, false, options.recents_data)
-
 	buffers_loaded.recents = true
 end
 
@@ -133,20 +127,23 @@ function M.ToggleProjectsView()
 		api.nvim_win_set_option(recentsWindow, 'cursorline', false)
 		api.nvim_win_set_option(recentsWindow, 'winhighlight', common_highlight_opts)
 		api.nvim_win_set_option(recentsWindow, 'number', false)
+		api.nvim_win_set_option(recentsWindow, 'rnu', false)
 
 		instructionsWindow = api.nvim_open_win(instructionsBuffer, 0, instructionsWindow_opts)
 		api.nvim_win_set_option(instructionsWindow, 'cursorline', false)
 		api.nvim_win_set_option(instructionsWindow, 'winhighlight', common_highlight_opts)
 		api.nvim_win_set_option(instructionsWindow, 'number', false)
+		api.nvim_win_set_option(instructionsWindow, 'rnu', false)
 
 
 		mainWindow = api.nvim_open_win(projectsBuffer, 1, mainWindow_opts)
 		api.nvim_win_set_option(mainWindow, 'cursorline', true)
 		api.nvim_win_set_option(mainWindow, 'winhighlight', common_highlight_opts)
 		api.nvim_win_set_option(mainWindow, 'number', false)
+		api.nvim_win_set_option(mainWindow, 'rnu', false)
 		api.nvim_set_current_win(mainWindow)
 
-		if buffers_loaded.projects then api.nvim_win_set_cursor(mainWindow, {7, 0}) end
+		if buffers_loaded.projects then api.nvim_win_set_cursor(mainWindow, {1, 0}) api.nvim_win_set_cursor(mainWindow, {7, 0}) end
 
 	else
 		if api.nvim_win_is_valid(recentsWindow) then api.nvim_win_hide(recentsWindow) end
@@ -250,7 +247,7 @@ end
 
 function M.LoadMappings()
 	api.nvim_buf_set_keymap(projectsBuffer, 'n', 'q', '<cmd>q<CR>', {})
-	api.nvim_buf_set_keymap(projectsBuffer, 'n', '<ESC>', '<cmm>q<CR>', {})
+	api.nvim_buf_set_keymap(projectsBuffer, 'n', '<ESC>', '<cmd>q<CR>', {})
 	api.nvim_buf_set_keymap(projectsBuffer, 'n', '<CR>', '', {callback = HandleInput})
 	api.nvim_buf_set_keymap(projectsBuffer, 'n', 'D', '', {callback = M.removeProject})
 	api.nvim_buf_set_keymap(projectsBuffer, 'n', 'a', '', {

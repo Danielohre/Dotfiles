@@ -50,7 +50,9 @@ vim.api.nvim_create_autocmd({"WinLeave"}, {
 vim.api.nvim_create_autocmd({'VimEnter'}, {
 	pattern = "*",
 	callback = function ()
-		require('plugins.bpp').ToggleProjectsView()
+		if next(vim.fn.argv()) == nil then
+			require('plugins.bpp').ToggleProjectsView()
+		end
 	end
 
 
@@ -62,7 +64,7 @@ vim.api.nvim_create_autocmd({'User'}, {
 	pattern = 'ProjectsDirChanged',
 	group = 'DirChangedGroup',
 	callback = function(opts)
-		require('plugins.toggle-terminal').ChangeDir(opts.data)
+		require('plugins.put').ChangeDir(opts.data)
 		require('nvim-tree.api').tree.change_root(opts.data)
 		require('nvim-tree.api').tree.open()
 	end,
@@ -72,7 +74,7 @@ vim.api.nvim_create_autocmd({'User'}, {
 	group = 'DirChangedGroup',
 	callback = function(opts)
 		vim.cmd('cd ' .. opts.data)
-		require('plugins.toggle-terminal').ChangeDir(opts.data)
+		require('plugins.put').ChangeDir(opts.data)
 	end,
 })
 

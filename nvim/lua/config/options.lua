@@ -6,5 +6,6 @@ vim.opt.ruler = true
 vim.opt.smarttab = true
 vim.opt.shiftwidth= 4
 vim.opt.number = true
+vim.opt.rnu = true
 vim.opt.syntax = "on"
 vim.opt.autoread = true
