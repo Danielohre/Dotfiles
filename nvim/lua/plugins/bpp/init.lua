@@ -92,7 +92,7 @@ local function loadInstructionsBuffer()
 		table.insert(user_text, string.rep(" ", indent) .. text)
 		table.insert(user_text, '')
 	end
-	api.nvim_buf_set_lines(instructionsBuffer, 50,50, true, user_text)
+	api.nvim_buf_set_lines(instructionsBuffer, 30,30, true, user_text)
 	for i = 0, 80, 1 do api.nvim_buf_add_highlight(instructionsBuffer, namespace_id , 'ProjectsTitle', i, 0, -1) end
 	buffers_loaded.instructions = true
 end
