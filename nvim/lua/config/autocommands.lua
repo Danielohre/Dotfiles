@@ -78,3 +78,11 @@ vim.api.nvim_create_autocmd({'User'}, {
 	end,
 })
 
+vim.api.nvim_create_autocmd('LspAttach', {
+	desc = 'LSP actions',
+	callback = function ()
+		vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', {buffer = true})
+		vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', {buffer = true})
+		vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', {buffer = true})
+	end
+})
