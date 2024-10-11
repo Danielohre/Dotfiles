@@ -15,4 +15,6 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 sudo ln -s $(dirname $0)/nvim ~/.config/
 sudo ln -s $(dirname $0)/.tmux.conf ~/
 
+rm -rf nvim-linux64.tar.gz
+
 echo Open NVIM and run :PlugInstall
