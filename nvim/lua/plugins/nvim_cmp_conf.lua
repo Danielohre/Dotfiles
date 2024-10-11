@@ -5,8 +5,6 @@ cmp.setup({
   completion = {
     completeopt = 'menu,menuone,noinsert'
   },
-  mapping = {
-},		
 snippet = {
   -- REQUIRED - you must specify a snippet engine
   expand = function(args)
@@ -37,6 +35,7 @@ mapping = cmp.mapping.preset.insert({
 sources = cmp.config.sources({
   { name = 'nvim_lsp', dup = 0 },
   { name = 'vsnip', dup = 0 }, -- For vsnip users.
+  { name = 'nvim_lsp_signature_help'},
   -- { name = 'luasnip' }, -- For luasnip users.
   -- { name = 'ultisnips' }, -- For ultisnips users.
   -- { name = 'snippy' }, -- For snippy users.
@@ -90,6 +89,9 @@ require('lspconfig')['lua_ls'].setup {
 }
 require('lspconfig')['clangd'].setup {
 	capabilities = capabilities,
+	on_attach = function ()
+			vim.keymap.set('n', '<C-k>', vim.lsp.buf.hover, {noremap = true, silent = true, buffer = bufnr})
+	end
 }
 require('lspconfig')['pylsp'].setup {
   capabilities = capabilities

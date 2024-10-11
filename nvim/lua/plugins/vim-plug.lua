@@ -14,10 +14,12 @@ Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
 Plug 'williamboman/mason.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug('nvim-telescope/telescope.nvim', {branch = '0.1.x'})
 Plug 'peterhoeg/vim-qml'
+Plug 'MeanderingProgrammer/markdown.nvim'
 
 vim.call('plug#end')
 
@@ -26,3 +28,4 @@ require('plugins.treesitter_conf')
 require('plugins.telescope_conf')
 require('plugins.mason_conf')
 require('plugins.nvim-tree-config')
+require('render-markdown').setup({})
