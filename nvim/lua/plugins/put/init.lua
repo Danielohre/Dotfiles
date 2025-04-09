@@ -54,6 +54,7 @@ function M.setup(opts)
 	opts = opts or {
 		width_scale = 0.8,
 		height_scale = 0.8,
+
 	}
 	MergeOptions(opts)
 	M.Highlights()

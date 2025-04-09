@@ -10,6 +10,7 @@ require('plugins.bpp').setup(
 		'<C-m>      : Toggle Terminal',
 		'<leader>ff : Find File in CWD',
 		'<leader>fg : LiveGrep In CWD',
+		'<leader>fb : Buffer Search',
 		'<leader>q  : Open File Tree'
 	},
 	recents_data = {}

@@ -10,3 +10,5 @@ vim.opt.rnu = true
 vim.opt.syntax = "on"
 vim.opt.autoread = true
 vim.opt.clipboard='unnamedplus'
+vim.opt.iskeyword:append '_'
+vim.opt.colorcolumn='120'

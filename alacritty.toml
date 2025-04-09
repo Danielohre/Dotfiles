@@ -1,0 +1,26 @@
+[general]
+
+working_directory = "C:/Users/daohr"
+live_config_reload = true
+
+[window]
+decorations = "Full"
+decorations_theme_variant = "Dark"
+
+[font]
+normal = {family = "FiraCode Nerd Font Mono", style = "Regular"}
+
+[colors]
+
+[colors.primary]
+foreground = "#FFFFFF"
+background = "#152030"
+
+[colors.normal]
+green = "#20a929"
+blue = "#0004AF"
+
+[colors.bright]
+green = "#aaFA14"
+blue = "#82b8c8"
+
