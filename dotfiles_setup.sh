@@ -10,10 +10,12 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 
-sudo ln -s $(dirname $0)/nvim ~/.config/
-sudo ln -s $(dirname $0)/.tmux.conf ~/
+sudo ln -s $(dirname ~/0)/nvim ~/.config/
+sudo ln -s $(dirname ~/0)/.tmux.conf ~/
 
-rm -rf nvim-linux64.tar.gz
+rm -rf *.tar.gz
+
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 echo Open NVIM and run :PlugInstall
 
