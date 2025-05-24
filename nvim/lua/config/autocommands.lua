@@ -60,6 +60,7 @@ vim.api.nvim_create_autocmd({'VimEnter'}, {
 vim.api.nvim_create_augroup('DirChangedGroup', {
 	clear = true
 })
+
 vim.api.nvim_create_autocmd({'User'}, {
 	pattern = 'ProjectsDirChanged',
 	group = 'DirChangedGroup',
@@ -69,6 +70,7 @@ vim.api.nvim_create_autocmd({'User'}, {
 		require('nvim-tree.api').tree.open()
 	end,
 })
+
 vim.api.nvim_create_autocmd({'User'}, {
 	pattern = 'NvimTreeChangedRoot',
 	group = 'DirChangedGroup',

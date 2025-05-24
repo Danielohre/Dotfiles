@@ -6,9 +6,12 @@ vim.opt.ruler = true
 vim.opt.smarttab = true
 vim.opt.shiftwidth= 4
 vim.opt.number = true
-vim.opt.rnu = true
+--vim.opt.rnu = true
 vim.opt.syntax = "on"
 vim.opt.autoread = true
-vim.opt.clipboard='unnamedplus'
-vim.opt.iskeyword:append '_'
+--vim.opt.clipboard='unnamedplus'
+--vim.opt.iskeyword:append '_'
 vim.opt.colorcolumn='120'
+vim.diagnostic.config({
+	virtual_text = true,
+})

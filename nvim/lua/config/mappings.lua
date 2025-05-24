@@ -33,8 +33,14 @@ vim.keymap.set('n', '<leader>s', ':w<cr>')
 vim.keymap.set('n', '<leader>h', function() SwitchToHeader() end)
 vim.keymap.set('n', '<leader>m', '<cmd>ToggleTerminal<cr>')
 
-vim.keymap.set('n', '<ESC>>', ':vertical res +1^M<cr>', {noremap = true, silent = true})
-vim.keymap.set('n', '<ESC><', ':vertical res -1^M<cr>', {noremap = true, silent = true})
+vim.keymap.set('n', '<ESC>>', ':vertical res +1^M<cr>', {remap = true, silent = true})
+vim.keymap.set('n', '<ESC><', ':vertical res -1^M<cr>', {remap = true, silent = true})
 vim.keymap.set('n', '<ESC>+', ':res +1^M<cr>', {noremap = true, silent = true})
 vim.keymap.set('n', '<ESC>-', ':res -1^M<cr>', {noremap = true, silent = true})
+
+--vim.keymap.set('i', '<C-Space>', '<C-x><C-o>', {remap = true, silent = true})
+--vim.keymap.set('i', '<C-@>', '<C-Space>', {remap = true, silent = true})
+vim.keymap.set('n', '<C-Space>', '<C-x><C-o>', {noremap = true, silent = true})
+vim.keymap.set('n', '<C-@>', '<C-Space>', {noremap = true, silent = true})
+
 
