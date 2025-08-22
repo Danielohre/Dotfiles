@@ -58,4 +58,3 @@ blink.setup {
 }
 
 
-print(blink.opts)

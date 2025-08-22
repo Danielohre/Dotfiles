@@ -20,15 +20,16 @@ Plug 'williamboman/mason.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug('nvim-telescope/telescope.nvim', {branch = '0.1.x'})
 Plug 'peterhoeg/vim-qml'
-Plug 'MeanderingProgrammer/markdown.nvim'
-
+--Plug 'MeanderingProgrammer/markdown.nvim'
+Plug "OXY2DEV/markview.nvim"
 vim.call('plug#end')
 
 --require('plugins.nvim_cmp_conf')
 --
 require('plugins.blink_cmp')
+require('plugins.markview_conf')
 require('plugins.treesitter_conf')
 require('plugins.telescope_conf')
 require('plugins.mason_conf')
 require('plugins.nvim-tree-config')
-require('render-markdown').setup({})
+--require('render-markdown').setup({})

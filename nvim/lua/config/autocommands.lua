@@ -6,21 +6,21 @@ vim.api.nvim_create_autocmd({"FocusGained","BufEnter","CursorHold","CursorHoldI"
 })
 
 vim.api.nvim_create_augroup('ClangdFormat', {clear = true})
-vim.api.nvim_create_autocmd({"BufWrite"}, {
+--[[vim.api.nvim_create_autocmd({"BufWrite"}, {
 	pattern = {"*.cpp", "*.c", "*.h", "*.hpp"},
 	callback = function()
 		vim.cmd[[
-			if executable('clang-format') && !empty(findfile('.clang-format', expand('%:p:h') . ';')) 
+			if executable('clang-format') 
 				let cursor_pos = getpos('.')
-				:%!clang-format
+				:%!clang-format --style=file
 				call setpos('.', cursor_pos)
 			else
 				echom "clang-format not available OR no .clang-format file available"
 			endif
 		]]
-	end,
-	group = 'ClangdFormat'
-})
+	--end,
+	--group = 'ClangdFormat'
+--})
 
 vim.api.nvim_create_augroup('BlackFormat', {clear = true})
 vim.api.nvim_create_autocmd({"BufWritePost"}, {
@@ -82,9 +82,17 @@ vim.api.nvim_create_autocmd({'User'}, {
 
 vim.api.nvim_create_autocmd('LspAttach', {
 	desc = 'LSP actions',
-	callback = function ()
+	callback = function (args)
+		local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
 		vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', {buffer = true})
 		vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', {buffer = true})
 		vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', {buffer = true})
+		vim.api.nvim_create_autocmd('BufWritePre', {
+			group = vim.api.nvim_create_augroup('my.lsp', {clear=false}),
+			buffer = args.buf,
+			callback = function()
+			  vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 1000 })
+			end,
+		})
 	end
 })
