@@ -1,3 +1,4 @@
+
 vim.lsp.config.lua_ls = {
 	-- Command and arguments to start the server.
 	cmd = { 'lua-language-server' },
@@ -36,8 +37,30 @@ vim.lsp.config.clangd = {
 	filetypes = { 'c', 'cpp', 'h' },
 	capabilities = require('blink.cmp').get_lsp_capabilities(),
 	root_markers = { '.clangd', '.clang-tidy', '.clang-format', 'compile_commands.json', 'compile_flags.txt',
-		'configure.ac', '.git' }
+		'configure.ac', '.git' },
+	on_attach = function()
+		vim.api.nvim_buf_create_user_command(0, 'ClangdSwitchSourceHeader', function()
+			local methodName = 'textDocument/switchSourceHeader'
+			local client = vim.lsp.get_clients({bufnr = 0, name = 'clangd'})[1]
+
+			if not client then
+				return vim.notify(('method %s is not supported by any active servers'):format(methodName))
+			end
+			client.request(methodName, vim.lsp.util.make_text_document_params(0), function(err, result)
+				if err then
+					error(tostring(err))
+				end
+				if not result then
+					vim.notify('corresponding file cannot be determined')
+					return
+				end
+				vim.cmd.edit(vim.uri_to_fname(result))
+			end, 0)
+		end, {desc = 'Switch between source/header'})
+	end,
 }
+
+
 vim.lsp.enable('clangd')
 
 
