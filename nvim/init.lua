@@ -1,8 +1,8 @@
+require('plugins.setup')
 require('config.options')
 
 require('config.mappings')
 
-require('plugins.vim-plug')
 
 vim.cmd 'set termguicolors'
 vim.cmd 'colorscheme nightfly'

@@ -34,7 +34,7 @@ vim.lsp.enable('lua_ls')
 
 vim.lsp.config.clangd = {
 	cmd = { 'clangd', "--log=verbose" },
-	filetypes = { 'c', 'cpp', 'h' },
+	filetypes = { 'c', 'cpp' },
 	capabilities = require('blink.cmp').get_lsp_capabilities(),
 	root_markers = { '.clangd', '.clang-tidy', '.clang-format', 'compile_commands.json', 'compile_flags.txt',
 		'configure.ac', '.git' },
@@ -84,3 +84,24 @@ vim.lsp.config('pylsp', {
 })
 
 vim.lsp.enable('pylsp')
+
+vim.lsp.config("ra", {
+	cmd = { "rust-analyzer" },
+	filetypes = { 'rs' },
+	settings = {
+		["rust-analyzer"] = {
+			files = { watcher = "server" },
+			cargo = { targetDir = true },
+			check = { command = "clippy" },
+			inlayHints = {
+				bindingModeHints = { enabled = true },
+				closureCaptureHints = { enabled = true },
+				closureReturnTypeHints = { enable = "always" },
+				maxLength = 100,
+			},
+			rustc = { source = "discover" },
+		},
+	},
+	root_markers = { { "Config.toml" }, ".git" }
+})
+vim.lsp.enable('ra')

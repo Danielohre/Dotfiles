@@ -7,17 +7,16 @@ sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
 
 echo export PATH="$PATH:/opt/nvim-linux-x86_64/bin" >> ~/.bashrc
 
-
-#sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-#       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-
-
 sudo ln -s $(dirname ~/0)/nvim ~/.config/
 sudo ln -s $(dirname ~/0)/.tmux.conf ~/
 
 rm -rf *.tar.gz
 
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install
+
+source ~/.bashrc
 
 
 echo Set working directory in alacritty.toml
