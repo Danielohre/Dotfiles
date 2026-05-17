@@ -19,7 +19,8 @@ vim.pack.add({
 	'https://github.com/rafamadriz/friendly-snippets',
 	'https://github.com/williamboman/mason.nvim',
 	'https://github.com/ibhagwan/fzf-lua.git',
-	'https://github.com/peterhoeg/vim-qml'
+	'https://github.com/peterhoeg/vim-qml',
+	{ src = 'https://github.com/catppuccin/nvim' },
 })
 
 require('plugins.markview_conf')

@@ -5,11 +5,11 @@ require('config.mappings')
 
 
 vim.cmd 'set termguicolors'
-vim.cmd 'colorscheme nightfly'
+vim.cmd 'colorscheme catppuccin'
 
 require('plugins.put').setup({ width_scale = 0.8, height_scale = 0.8 })
 
-require('plugins.bpp').setup(
+--[[require('plugins.bpp').setup(
 	{
 		style = { title = '#805514', list = '#048c12', end_of_buffer = 'bg' },
 		instructions_data = {
@@ -22,7 +22,7 @@ require('plugins.bpp').setup(
 		recents_data = {}
 
 	}
-)
+)]] --
 
 require('config.autocommands')
 require('config.lsp.lspConfig')

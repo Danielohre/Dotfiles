@@ -3,22 +3,6 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHo
 	command = 'if mode()!= \'c\' | checktime| endif',
 })
 
-vim.api.nvim_create_augroup('ClangdFormat', { clear = true })
---[[vim.api.nvim_create_autocmd({"BufWrite"}, {
-	pattern = {"*.cpp", "*.c", "*.h", "*.hpp"},
-	callback = function()
-		vim.cmd[[
-			if executable('clang-format')
-				let cursor_pos = getpos('.')
-				:%!clang-format --style=file
-				call setpos('.', cursor_pos)
-			else
-				echom "clang-format not available OR no .clang-format file available"
-			endif
-		]]
---end,
---group = 'ClangdFormat'
---})
 
 vim.api.nvim_create_augroup('BlackFormat', { clear = true })
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
@@ -45,7 +29,7 @@ vim.api.nvim_create_autocmd({ "WinLeave" }, {
 	group = 'CursorLine'
 })
 
-vim.api.nvim_create_autocmd({ 'VimEnter' }, {
+--[[vim.api.nvim_create_autocmd({ 'VimEnter' }, {
 	pattern = "*",
 	callback = function()
 		if next(vim.fn.argv()) == nil then
@@ -54,7 +38,7 @@ vim.api.nvim_create_autocmd({ 'VimEnter' }, {
 	end
 
 
-})
+})--]]
 vim.api.nvim_create_augroup('DirChangedGroup', {
 	clear = true
 })

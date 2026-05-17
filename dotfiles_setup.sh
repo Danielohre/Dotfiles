@@ -5,7 +5,7 @@ curl --output nvim-linux-x86_64.tar.gz -L "https://github.com/neovim/neovim/rele
 sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
 
 
-echo export PATH="$PATH:/opt/nvim-linux-x86_64/bin" >> ~/.bashrc
+export PATH="${PATH}:/opt/nvim-linux-x86_64/bin"
 
 sudo ln -s $(dirname ~/0)/nvim ~/.config/
 sudo ln -s $(dirname ~/0)/.tmux.conf ~/
@@ -18,5 +18,7 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 
 source ~/.bashrc
 
+sudo apt install wslu
 
-echo Set working directory in alacritty.toml
+source alacrittyConfigSetup.sh
+
