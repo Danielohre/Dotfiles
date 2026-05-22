@@ -15,3 +15,9 @@ vim.opt.colorcolumn='120'
 vim.diagnostic.config({
 	virtual_text = true,
 })
+
+
+vim.cmd 'let g:load_doxygen_syntax=1'
+vim.cmd 'set termguicolors'
+vim.cmd 'colorscheme catppuccin'
+

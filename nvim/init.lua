@@ -26,3 +26,4 @@ require('plugins.put').setup({ width_scale = 0.8, height_scale = 0.8 })
 
 require('config.autocommands')
 require('config.lsp.lspConfig')
+
